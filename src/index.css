@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans bg-brand-light text-brand-dark antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-brand-primary;
+  }
+}
+
+@layer utilities {
+  .adventure-card {
+    @apply bg-white rounded-[20px] shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden;
+  }
+  .glass-nav {
+    @apply bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm text-brand-dark;
+  }
+  .btn-primary {
+    @apply bg-brand-primary text-white font-bold rounded-full hover:bg-[#4a8a32] transition-all duration-300 shadow-md px-8 py-3 transform hover:-translate-y-1 inline-flex items-center justify-center gap-2;
+  }
+  .btn-secondary {
+    @apply bg-brand-secondary text-white font-bold rounded-full hover:bg-[#d87c14] transition-all duration-300 shadow-md px-8 py-3 transform hover:-translate-y-1 inline-flex items-center justify-center gap-2;
+  }
+  .btn-outline-primary {
+    @apply border-2 border-brand-primary text-brand-primary font-bold rounded-full hover:bg-brand-primary hover:text-white transition-all duration-300 px-8 py-3 inline-flex items-center justify-center gap-2;
+  }
+}

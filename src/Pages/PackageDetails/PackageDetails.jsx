@@ -15,13 +15,12 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import TourGuideCard from "../Home/OurTourGuide/TourGuideCard";
 import useBooking from "../../hooks/useBooking";
 import toast from "react-hot-toast";
-
-
+import { motion } from "framer-motion";
 
 const PackageDetails = () => {
-  const {booking} = useBooking();
+  const { booking } = useBooking();
   const [tourDate, setTourDate] = useState(new Date());
-    const { user } = useAuth();
+  const { user } = useAuth();
   const { id } = useParams();
   const [guides] = useGuide();
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ const PackageDetails = () => {
   const {
     data: details = {},
     isPending: loading,
-    
   } = useQuery({
     queryKey: ["packagesDetails"],
     queryFn: async () => {
@@ -40,17 +38,14 @@ const PackageDetails = () => {
       return res.data;
     },
   });
-//   console.log(details);
+
   const firstImage = details?.images?.[0];
   const twoImage = details?.images?.[1];
   const threeImage = details?.images?.[2];
-  const allPic = [twoImage, threeImage];
-//   console.log(allPic);
+  const allPic = [twoImage, threeImage].filter(Boolean);
 
   const handleBookNow = async(event) => {
     event.preventDefault();
-    // Logic to handle booking
-
     const form = event.target;
     const tourGuideName = form.elements.tourGuideName.value;
     const packageName = details?.tripTitle;
@@ -61,7 +56,7 @@ const PackageDetails = () => {
     const date = tourDate;
     const status = "In Review";
 
-    const bookingData ={
+    const bookingData = {
       tourGuideName,
       packageName,
       name,
@@ -72,255 +67,211 @@ const PackageDetails = () => {
       status
     }
 
-    // console.log(bookingData);
-
     Swal.fire({
-      title: "Are you sure?",
-      text: "You want to book this!",
-      icon: "warning",
+      title: "Confirm Booking",
+      text: "Are you ready to embark on this journey?",
+      icon: "info",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#0D2040",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Book it!"
-    }).then( async (result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        try{
-          const bookRes = await axiosSecure.post('/booking-post',bookingData)
-          // console.log(bookRes.data);
+        try {
+          const bookRes = await axiosSecure.post('/booking-post', bookingData)
           if(bookRes?.data?.insertedId){
             if(booking?.length > 2){
-              toast.success("Congratulations You Got 20% Off");
+              toast.success("Congratulations! You Got 20% Off as a loyal customer.");
             }
             Swal.fire({
               title: "Booked!",
-              text: "Your Booking Succeeded.",
-              icon: "success"
+              text: "Your adventure awaits.",
+              icon: "success",
+              confirmButtonColor: "#D4AF37"
             });
-            
             navigate('/dashboard/my-booking')
           }
-
-   
-        
-
-       
-     }catch (err) {
+        } catch (err) {
           console.log(err)
-     }
-
-        
+        }
       }
     });
-
-
-
-
   };
 
   if (loading || !details)
     return (
-      <div className="flex justify-center items-center ">
-        <Lottie className="w-1/3" animationData={loaderAnimation} loop={true} />
+      <div className="flex justify-center items-center py-32 bg-brand-light">
+        <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
       </div>
     );
 
   return (
-    <div>
-
+    <div className="bg-brand-light min-h-screen pb-20">
       <Helmet>
-        <title>Shadow Tourist || Package Details</title>
+        <title>Shadow Tourist || {details?.tripTitle || 'Package Details'}</title>
       </Helmet>
 
-      <div className="relative">
-        <img
-          src="https://i.ibb.co/GQ4Qp0j/man-helmet-sitting-atv-quad-bike-mountains-1.jpg"
-          alt="Hero Image"
-          className="w-full h-96 object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-white text-center text-4xl lg:text-6xl font-bold">
-            Our Package Details
-          </h1>
+      {/* Immersive Hero Section */}
+      <div className="relative h-[60vh] md:h-[70vh] w-full">
+        <div className="absolute inset-0 bg-brand-dark">
+          <img
+            src={firstImage || "https://i.ibb.co/GQ4Qp0j/man-helmet-sitting-atv-quad-bike-mountains-1.jpg"}
+            alt={details?.tripTitle}
+            className="w-full h-full object-cover opacity-70"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 max-w-7xl mx-auto flex flex-col justify-end h-full">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <span className="px-4 py-1 bg-brand-secondary text-brand-primary font-bold tracking-widest uppercase text-xs rounded-full mb-4 inline-block">
+              {details?.tourType}
+            </span>
+            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-serif font-bold drop-shadow-lg mb-4 max-w-4xl leading-tight">
+              {details?.tripTitle}
+            </h1>
+          </motion.div>
         </div>
       </div>
-      <div className="card rounded-md   hover:shadow-2xl hover:shadow-[#707178]   my-5 lg:my-10 mx-5">
-        <div className="md:px-5">
-          <figure>
-            <img className=" lg:h-screen object-cover object-center rounded-md lg:w-full " src={firstImage} />
-          </figure>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:px-5 mt-5">
-          {allPic && allPic.map((pic, idx) => <img className="h-auto object-cover object-center md:h-64 rounded-md  lg:max-h-80 w-full" key={idx} src={pic} />)}
-        </div>
-        <div className="p-5 lg:p-10 space-y-5 ">
-          <p className="text-xl font-semibold">
-            Trip Title : {details?.tripTitle}{" "}
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
 
-          <p className="text-xl flex items-center">
-            <span className="font-semibold ">Price : {details.price} </span>{" "}
-            <span className="text-blue-gray-600 flex items-center">
-              {" "}
-              <BsCurrencyDollar className="" />
-            </span>{" "}
-          </p>
-          <p className="text-xl">
-            <span className="font-semibold ">
-              Tour Type : {details?.tourType}{" "}
-            </span>{" "}
-            <span className="text-blue-gray-600"></span>
-          </p>
-
-          <p className="text-xl">
-            <span className="font-semibold ">
-              Description : {" "}
-            </span>{" "}
-            <span className="text-blue-gray-600">{details?.description}</span>
-          </p>
-          <p className="text-xl">
-            <span className="font-semibold ">Tour plan : </span>{" "}
-          </p>
-          <div>
-            {details?.tourPlan?.map((day, index) => (
-              <div key={index} className="mb-1 collapse collapse-plus bg-base-200">
-                <input
-                  type="radio"
-                  name="my-accordion-3"
-                  defaultChecked={index === 0}
-                />
-                <div className="collapse-title text-xl font-medium">
-                  Day {day.day}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <div className="flex flex-col lg:flex-row gap-12">
+          
+          {/* Main Content Area */}
+          <div className="lg:w-2/3 space-y-12">
+            
+            {/* Gallery */}
+            {allPic.length > 0 && (
+              <section>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {allPic.map((pic, idx) => (
+                    <div key={idx} className="overflow-hidden rounded-2xl shadow-md h-64 md:h-80">
+                      <img className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src={pic} alt={`Gallery Image ${idx+1}`} />
+                    </div>
+                  ))}
                 </div>
-                <div className="collapse-content">
-                  <p>{day.activities}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-       {/* all tour guides */}
-      <div className="mx-5">
-        <h2 className="text-center text-2xl font-semibold text-[#4692FF]">See Our all guides Profile</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 px-0 lg:px-6">
-                      {
-                        guides.slice(0,3).map(guide => <TourGuideCard key={guide._id} guide={guide} ></TourGuideCard>)
-                       }  
-                </div>
-      
-                <div className="my-4 text-center">
-      <Link to={'/allGuides'}><button className="btn bg-[#3e8fdb] text-white">See all Guides</button></Link>
-      
-      </div>
-      </div>
-
-      {/* form */}
-
-      <div className="p-5 lg:p-10 m-5 bg-gray-100 rounded-lg shadow-lg">
-        <h2 className="text-2xl md:text-4xl  font-bold text-center text-blue-600 mb-5">
-          Book Now{" "}
-        </h2>
-        <form onSubmit={handleBookNow}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label className="block mb-2 font-semibold">
-                Name of the Package:
-              </label>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full "
-                value={details?.tripTitle || ''} 
-                readOnly
-              />
-            </div>
-            <div>
-              <label className="block mb-2 font-semibold">Tourist Name:</label>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full "
-                value={user?.displayName|| ''} 
-                readOnly
-              />
-            </div>
-            <div>
-              <label className="block mb-2 font-semibold">Tourist Email:</label>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full "
-                value={user?.email|| ''} 
-                readOnly
-              />
-            </div>
-            <div>
-              <label className="block mb-2 font-semibold">Price:</label>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full "
-                value={details?.price || ''} 
-                readOnly
-              />
-            </div>
-            <div>
-              <label className="block mb-2 font-semibold">Tourist Image Url:</label>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full "
-                value={user?.photoURL|| ''} 
-                readOnly
-              />
-            </div>
-            <div>
-              <label className="block  mb-2 font-semibold">Tour Date:</label>
-              <ReactDatePicker
-                selected={tourDate}
-                onChange={(date) => setTourDate(date)}
-                className="input-field input input-bordered w-full"
-              />
-            </div>
-            <div>
-              <label className="block mb-2 font-semibold">
-                Tour Guide Name:
-              </label>
-              <select name="tourGuideName" className="select  w-full ">
-                
-                {guides.map(guide => (
-                <option key={guide._id} value={guide.name}>{guide.name}</option>
-              ))}
-              </select>
-            </div>
-          </div>
-          {/* <button
-            type="submit"
-            className="mt-5 bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600"
-          >
-            Book Now
-          </button> */}
-
-          {!user ? (
-              <NavLink to="/login" state={{from: location}} replace>
-                <button
-                  type="button"
-                  className="bg-[#4692FF] mt-5 hover:bg-[#82b2f7] text-white font-semibold py-3 px-6 rounded-lg transition duration-200"
-                >
-                  Login to Book Now
-                </button>
-              </NavLink>
-            ) : (
-              <button
-              type="submit"
-              className="mt-5 bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600"
-            >
-              Book Now
-            </button>
+              </section>
             )}
-        </form>
+
+            {/* Description */}
+            <section className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-3xl font-serif text-brand-primary font-bold mb-6">About This Journey</h2>
+              <p className="text-gray-600 font-light leading-relaxed text-lg">
+                {details?.description}
+              </p>
+            </section>
+
+            {/* Itinerary */}
+            <section className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-3xl font-serif text-brand-primary font-bold mb-8">Itinerary</h2>
+              <div className="space-y-4">
+                {details?.tourPlan?.map((day, index) => (
+                  <div key={index} className="collapse collapse-plus bg-gray-50 border border-gray-100 rounded-xl">
+                    <input type="radio" name="itinerary-accordion" defaultChecked={index === 0} />
+                    <div className="collapse-title text-xl font-medium text-brand-primary bg-white rounded-t-xl border-b border-gray-100">
+                      <span className="text-brand-secondary font-bold mr-2">Day {day.day}:</span> Plan
+                    </div>
+                    <div className="collapse-content bg-white pt-4 text-gray-600 font-light rounded-b-xl">
+                      <p>{day.activities}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Tour Guides */}
+            <section className="pt-4">
+              <h2 className="text-3xl font-serif text-brand-primary font-bold mb-8">Meet Your Guides</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {guides.slice(0, 4).map(guide => (
+                  <TourGuideCard key={guide._id} guide={guide} />
+                ))}
+              </div>
+              <div className="mt-8 text-center sm:text-left">
+                <Link to={'/allGuides'}>
+                  <button className="btn-outline-luxury px-8 py-2 rounded-full text-sm tracking-widest uppercase">
+                    View All Guides
+                  </button>
+                </Link>
+              </div>
+            </section>
+          </div>
+
+          {/* Sticky Booking Sidebar */}
+          <div className="lg:w-1/3">
+            <div className="sticky top-32 glass-card rounded-2xl p-8 bg-white/90">
+              <div className="flex items-end gap-1 mb-6 border-b border-gray-200 pb-6">
+                <span className="text-gray-500 font-medium mb-2 mr-1">from</span>
+                <BsCurrencyDollar className="text-brand-secondary text-2xl mb-2" />
+                <span className="text-5xl font-bold text-brand-dark tracking-tight">{details?.price}</span>
+              </div>
+              
+              <h3 className="text-2xl font-serif text-brand-primary font-bold mb-6">Reserve Your Spot</h3>
+              
+              <form onSubmit={handleBookNow} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wider">Package</label>
+                  <input
+                    type="text"
+                    className="input input-bordered w-full bg-gray-50 text-gray-600 focus:outline-none"
+                    value={details?.tripTitle || ''} 
+                    readOnly
+                  />
+                </div>
+                
+                {user && (
+                  <>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wider">Name</label>
+                        <input type="text" className="input input-bordered w-full bg-gray-50 text-xs" value={user?.displayName || ''} readOnly />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wider">Email</label>
+                        <input type="text" className="input input-bordered w-full bg-gray-50 text-xs" value={user?.email || ''} readOnly />
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wider">Select Date</label>
+                  <div className="relative">
+                    <ReactDatePicker
+                      selected={tourDate}
+                      onChange={(date) => setTourDate(date)}
+                      className="input input-bordered w-full focus:border-brand-secondary focus:ring-1 focus:ring-brand-secondary transition-all"
+                      minDate={new Date()}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wider">Select Guide</label>
+                  <select name="tourGuideName" className="select select-bordered w-full focus:border-brand-secondary focus:ring-1 focus:ring-brand-secondary">
+                    {guides.map(guide => (
+                      <option key={guide._id} value={guide.name}>{guide.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="pt-4">
+                  {!user ? (
+                    <NavLink to="/login" state={{from: location}} replace>
+                      <button type="button" className="w-full btn-luxury py-4 rounded-xl text-sm tracking-widest uppercase">
+                        Login to Book
+                      </button>
+                    </NavLink>
+                  ) : (
+                    <button type="submit" className="w-full btn-luxury py-4 rounded-xl text-sm tracking-widest uppercase">
+                      Confirm Booking
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   );

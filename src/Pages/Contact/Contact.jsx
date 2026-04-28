@@ -1,137 +1,207 @@
 import { Helmet } from "react-helmet-async";
-import { FaPhoneAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaPhoneAlt, FaFacebookF, FaTwitter, FaInstagram, FaPaperPlane } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 
-
 const Contact = () => {
-    return (
-        <div className=" mb-5 lg:mb-9">
-                <Helmet>
+  return (
+    <div className="font-sans w-full overflow-x-hidden bg-brand-light">
+      <Helmet>
         <title>Shadow Tourist || Contact Us</title>
       </Helmet>
-            {/* Hero Section */}
-            <div className="relative">
-                <img src="https://i.ibb.co/7pty44N/luca-calderone-fwva-S5tq69g-unsplash-1.jpg" alt="Hero Image" className="w-full h-96 object-cover" />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <h1 className="text-white text-center text-4xl lg:text-6xl font-bold">Welcome to Our World</h1>
-                </div>
+
+      {/* 1. Hero Section */}
+      <div 
+        className="relative bg-cover bg-center h-[400px] md:h-[500px] flex items-center justify-center"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"
+        }}
+      >
+        <div className="absolute inset-0 bg-brand-dark bg-opacity-60"></div>
+        <div className="relative z-10 text-center text-white mt-16 px-4">
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6">Contact Us</h1>
+          <div className="flex items-center justify-center space-x-3 text-lg font-medium">
+            <Link to="/" className="hover:text-brand-primary transition-colors duration-300">Home</Link>
+            <span className="text-white/60">/</span>
+            <span className="text-brand-secondary">Contact Us</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Quick Contact Cards (Overlapping Hero slightly) */}
+      <div className="container mx-auto px-5 lg:px-20 -mt-16 relative z-20 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* Phone Card */}
+          <div className="bg-white p-8 rounded-[30px] shadow-lg hover:shadow-xl transition-all duration-300 border-b-4 border-transparent hover:border-brand-primary text-center group">
+            <div className="w-16 h-16 mx-auto bg-brand-primary/10 rounded-full flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300 mb-6">
+              <FaPhoneAlt size={24} />
             </div>
+            <h3 className="text-xl font-bold font-serif text-brand-dark mb-2">Phone Number</h3>
+            <p className="text-gray-500 mb-3">Call us anytime 24/7</p>
+            <p className="text-lg font-bold text-brand-primary">(+62) 123-821-455</p>
+          </div>
 
+          {/* Email Card */}
+          <div className="bg-white p-8 rounded-[30px] shadow-lg hover:shadow-xl transition-all duration-300 border-b-4 border-transparent hover:border-brand-secondary text-center group">
+            <div className="w-16 h-16 mx-auto bg-brand-secondary/10 rounded-full flex items-center justify-center text-brand-secondary group-hover:bg-brand-secondary group-hover:text-white transition-colors duration-300 mb-6">
+              <MdEmail size={28} />
+            </div>
+            <h3 className="text-xl font-bold font-serif text-brand-dark mb-2">Email Address</h3>
+            <p className="text-gray-500 mb-3">Drop us a line</p>
+            <p className="text-lg font-bold text-brand-secondary">support@shadowtourist.com</p>
+          </div>
 
-            <div className="text-center py-8 px-5">
-              <h2 className=" text-2xl lg:text-4xl font-extrabold">
-                Contact Us
+          {/* Location Card */}
+          <div className="bg-white p-8 rounded-[30px] shadow-lg hover:shadow-xl transition-all duration-300 border-b-4 border-transparent hover:border-brand-primary text-center group">
+            <div className="w-16 h-16 mx-auto bg-brand-primary/10 rounded-full flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300 mb-6">
+              <IoLocation size={28} />
+            </div>
+            <h3 className="text-xl font-bold font-serif text-brand-dark mb-2">Our Location</h3>
+            <p className="text-gray-500 mb-3">Visit our main office</p>
+            <p className="text-lg font-bold text-brand-primary">1230 Uttara, Dhaka</p>
+          </div>
+
+        </div>
+      </div>
+
+      {/* 3. Main Split Layout: Form & Map */}
+      <div className="container mx-auto px-5 lg:px-20 mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          
+          {/* Left: Contact Form */}
+          <div className="bg-white p-8 md:p-12 rounded-[40px] shadow-sm border border-gray-100">
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-primary/10 rounded-full text-brand-primary font-medium mb-4">
+                <span className="w-2 h-2 rounded-full bg-brand-secondary"></span>
+                Get In Touch
+              </div>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">
+                Send Us A Message
               </h2>
-              <p className=" pt-6 w-full mx-auto lg:w-9/12">
-              Embark on your shadowy adventure with ease by reaching out to Shadow Tourist Guide. Whether you have questions about our thrilling tours or need personalized recommendations, we are here to assist you every step of the way. Contact us via phone, email, or drop by our office to start planning your unforgettable journey into the shadows.{" "}
+              <p className="text-gray-500">
+                Have a specific itinerary in mind or need help planning? Fill out the form below and our adventure experts will get back to you shortly.
               </p>
             </div>
 
+            <form className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-brand-dark mb-2">Your Name</label>
+                  <input type="text" placeholder="John Doe" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-brand-dark mb-2">Your Email</label>
+                  <input type="email" placeholder="john@example.com" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-bold text-brand-dark mb-2">Subject</label>
+                <input type="text" placeholder="Tour Inquiry" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
+              </div>
 
-            <div>
-            <div className="mt-6 lg:mt-12 flex gap-6 flex-col-reverse lg:flex-row px-6">
-              <form className="lg:basis-3/5 basis-full">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                  <label>
-                    <span className=" text-xl font-bold">
-                      Your Name
-                    </span>{" "}
-                    <br />
-                    <input
-                      className="mt-4 w-full p-5 bg-opacity-25 rounded-md border-0 outline-0 bg-[#e3eeff]"
-                      type="text"
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </label>
-    
-                  {/* input-2 */}
-    
-                  <label>
-                    <span className=" text-xl font-bold">
-                      Your Email
-                    </span>{" "}
-                    <br />
-                    <input
-                      className="mt-4 w-full p-5 bg-opacity-25 rounded-md border-0 outline-0 bg-[#e3eeff]"
-                      type="email"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </label>
-    
-                  {/* input-3  */}
-    
-                  <label>
-                    <span className=" text-xl font-bold">
-                      Subject
-                    </span>{" "}
-                    <br />
-                    <input
-                      className="mt-4 w-full p-5 bg-opacity-25 rounded-md border-0 outline-0 bg-[#e3eeff]"
-                      type="text"
-                      placeholder="Enter your subject"
-                      required
-                    />
-                  </label>
-    
-                  {/* input-4  */}
-    
-                  <label>
-                    <span className=" text-xl font-bold">
-                      Phone Number
-                    </span>{" "}
-                    <br />
-                    <input
-                      className="mt-4 w-full p-5 bg-opacity-25 rounded-md border-0 outline-0 bg-[#e3eeff]"
-                      type="number"
-                      placeholder="Enter your phone number"
-                      required
-                    />
-                  </label>
-                </div>
-    
-                {/* input 5  */}
-                <label>
-                  <span className=" text-xl font-bold ">
-                    Message
-                  </span>{" "}
-                  <br />
-                  <textarea className="mt-4 w-full p-5 bg-opacity-25 rounded-md pb-36 lg:pb-64  border-0 outline-0 bg-[#e3eeff] text-[#9CA3AF] resize-none" placeholder="Write your message">
-                    
-                  </textarea>
-                </label>
-    
-                <button className="btn rounded-md text-white  text-xl font-bold bg-[#94b9ec] w-full mt-6">
-                  Send Message
-                </button>
-              </form>
-    
-              <div className=" border rounded-md border-neutral-900 border-opacity-10 lg:p-12 p-5 lg:basis-2/5 basis-full">
-                <div className="p-6 bg-[#C5DDFF] rounded-md bg-opacity-10 ">
-                  <FaPhoneAlt className="text-2xl text-[#94b9ec]"></FaPhoneAlt>
-                  <p className="pt-6">Phone Number :</p>
-                  <h3 className="font-bold pt-3">(+62) 123-821-455</h3>
-                </div>
-    
-                <div className="p-6 bg-[#C5DDFF] rounded-md bg-opacity-10  my-6">
-                  <MdEmail className="text-2xl text-[#94b9ec]"></MdEmail>
-                  <p className="pt-6">Email :</p>
-                  <h3 className="font-bold pt-3">shadowTourist@support.com</h3>
-                </div>
-    
-                <div className="p-6 bg-[#C5DDFF] rounded-md bg-opacity-10 ">
-                  <IoLocation className="text-2xl text-[#94b9ec]"></IoLocation>
-                  <p className="pt-6">Location :</p>
-                  <h3 className="font-bold pt-3">1230 Uttara , Dhaka</h3>
-                </div>
+              <div>
+                <label className="block text-sm font-bold text-brand-dark mb-2">Message</label>
+                <textarea placeholder="Tell us about your dream adventure..." required rows="6" className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all resize-none"></textarea>
+              </div>
+
+              <button type="submit" className="btn-primary w-full text-lg shadow-lg shadow-brand-primary/30">
+                Send Message <FaPaperPlane />
+              </button>
+            </form>
+          </div>
+
+          {/* Right: Map & Socials */}
+          <div className="flex flex-col gap-8">
+            {/* Map */}
+            <div className="bg-white p-4 rounded-[40px] shadow-sm border border-gray-100 flex-grow relative overflow-hidden min-h-[400px]">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d116833.9730352447!2d90.33728817435127!3d23.780840500000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b087026b81%3A0x8fa563bbdd5904c2!2sDhaka!5e0!3m2!1sen!2sbd!4v1717658933251!5m2!1sen!2sbd" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0, borderRadius: '30px' }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0 p-4"
+              ></iframe>
+            </div>
+
+            {/* Social Media Connect */}
+            <div className="bg-brand-dark p-10 rounded-[40px] text-center shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-secondary/20 rounded-full blur-2xl"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-primary/20 rounded-full blur-2xl"></div>
+              
+              <h3 className="text-2xl font-serif font-bold text-white mb-6 relative z-10">Follow Our Adventures</h3>
+              <div className="flex justify-center gap-4 relative z-10">
+                <a href="#" className="w-14 h-14 bg-white/10 hover:bg-brand-primary text-white rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                  <FaFacebookF size={20} />
+                </a>
+                <a href="#" className="w-14 h-14 bg-white/10 hover:bg-brand-secondary text-white rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                  <FaTwitter size={20} />
+                </a>
+                <a href="#" className="w-14 h-14 bg-white/10 hover:bg-brand-primary text-white rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                  <FaInstagram size={24} />
+                </a>
               </div>
             </div>
           </div>
 
         </div>
-    );
+      </div>
+
+      {/* 4. FAQ Section */}
+      <div className="bg-white py-24 border-t border-gray-100">
+        <div className="container mx-auto px-5 lg:px-20 max-w-4xl">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-primary/10 rounded-full text-brand-primary font-medium mb-4">
+              <span className="w-2 h-2 rounded-full bg-brand-secondary"></span>
+              Support
+            </div>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-dark">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            <div className="collapse collapse-arrow bg-brand-light rounded-[20px] group border border-transparent hover:border-brand-primary/30 transition-colors">
+              <input type="radio" name="my-accordion-2" defaultChecked /> 
+              <div className="collapse-title text-xl font-bold font-serif text-brand-dark group-hover:text-brand-primary transition-colors">
+                How do I book a personalized tour?
+              </div>
+              <div className="collapse-content text-gray-600"> 
+                <p>You can easily book a tour by navigating to our "Packages" page, selecting your desired adventure, and clicking the "Book Now" button. Alternatively, you can fill out the contact form above with your specific requests and we will create a custom itinerary for you.</p>
+              </div>
+            </div>
+            
+            <div className="collapse collapse-arrow bg-brand-light rounded-[20px] group border border-transparent hover:border-brand-primary/30 transition-colors">
+              <input type="radio" name="my-accordion-2" /> 
+              <div className="collapse-title text-xl font-bold font-serif text-brand-dark group-hover:text-brand-primary transition-colors">
+                What is your cancellation policy?
+              </div>
+              <div className="collapse-content text-gray-600"> 
+                <p>We offer a full refund for cancellations made at least 14 days prior to the scheduled tour date. Cancellations made within 14 days are subject to a 30% cancellation fee. Please contact our support team for emergency rescheduling.</p>
+              </div>
+            </div>
+
+            <div className="collapse collapse-arrow bg-brand-light rounded-[20px] group border border-transparent hover:border-brand-primary/30 transition-colors">
+              <input type="radio" name="my-accordion-2" /> 
+              <div className="collapse-title text-xl font-bold font-serif text-brand-dark group-hover:text-brand-primary transition-colors">
+                Are your tours suitable for children?
+              </div>
+              <div className="collapse-content text-gray-600"> 
+                <p>Absolutely! We offer a variety of family-friendly packages. However, some extreme adventure tours have age restrictions for safety reasons. Please check the specific details on each package or contact us directly to find the perfect tour for your family.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  );
 };
 
 export default Contact;

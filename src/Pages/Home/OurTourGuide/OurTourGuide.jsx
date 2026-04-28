@@ -3,31 +3,47 @@ import useGuide from "../../../hooks/useGuide";
 import TourGuideCard from "./TourGuideCard";
 import loaderAnimation from "../../../assets/loader.json";
 import { Link } from "react-router-dom";
-const OurTourGuide = () => {
-    const [guides,loading] = useGuide();
-    if (loading) return <div className="flex justify-center items-center ">
-    <Lottie className="w-1/3" animationData={loaderAnimation} loop={true} />
-  </div>
-  return (
-    <div>
-      <div className="text-center py-8 ">
-        <h2 className=" text-2xl lg:text-4xl font-extrabold">
-          Meet Our Tour Guides
-        </h2>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 px-6">
-                      {
-                        guides.slice(0,3).map(guide => <TourGuideCard key={guide._id} guide={guide} ></TourGuideCard>)
-                       }  
-                </div>
-      
-                <div className="my-4 text-center">
-      <Link to={'/allGuides'}><button className="btn bg-[#59A1E5] text-white">All Guides </button></Link>
-      
-      </div>
 
-    </div>
-  );
+const OurTourGuide = () => {
+    const [guides, loading] = useGuide();
+    
+    if (loading) return (
+      <div className="flex justify-center items-center py-20 bg-white">
+        <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
+      </div>
+    );
+    
+    return (
+      <div className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center px-4 py-2 bg-brand-primary/10 rounded-full text-brand-primary font-bold mb-4 uppercase tracking-widest text-sm">
+                  Expert Leaders
+              </div>
+              <h2 className="text-4xl md:text-5xl font-serif text-brand-dark font-bold mb-6">
+                Meet Our Tour Guides
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                Journey with the best. Our experienced and passionate guides are dedicated to making every step of your adventure extraordinary.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {guides.slice(0,3).map(guide => (
+                  <TourGuideCard key={guide._id} guide={guide} />
+                ))}  
+            </div>
+            
+            <div className="mt-16 text-center">
+              <Link to={'/allGuides'}>
+                <button className="btn-primary px-8 py-4 rounded-full text-lg shadow-lg shadow-brand-primary/30">
+                  View All Guides 
+                </button>
+              </Link>
+            </div>
+        </div>
+      </div>
+    );
 };
 
 export default OurTourGuide;

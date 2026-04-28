@@ -31,6 +31,7 @@ import AllStories from "../Pages/AllStories/AllStories";
 import Blogs from "../Pages/Blogs/Blogs";
 import Community from "../Pages/Community/Community";
 import AllGuides from "../Pages/AllGuides/AllGuides";
+import BlogDetails from "../Pages/Blogs/BlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "/blogs",
         element: <Blogs></Blogs>,
+      },
+      {
+        path: "/blog/:id",
+        element: <BlogDetails></BlogDetails>,
       },
       {
         path: "/community",

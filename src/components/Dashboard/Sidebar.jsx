@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GrLogout } from "react-icons/gr";
 import { AiOutlineBars } from "react-icons/ai";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
@@ -15,11 +15,9 @@ const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
   const [role] = useRole();
-  // console.log(role,isLoading);
 
   const navigate = useNavigate();
 
-  // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
@@ -27,89 +25,80 @@ const Sidebar = () => {
   return (
     <>
       {/* Small Screen Navbar */}
-      <div className="bg-gray-100 text-gray-800 flex justify-between md:hidden">
+      <div className="bg-[#1E1E2D] text-white flex justify-between md:hidden shadow-md fixed w-full z-50 top-0 border-b border-gray-800">
         <div>
           <div className="block cursor-pointer p-4 font-bold">
-            <Link to="/">
+            <Link to="/" className="flex items-center gap-3">
               <img
-                className="rounded-lg"
-                src="https://i.ibb.co/S0pnvyQ/Shadoww.png"
+                className="w-10 rounded-md"
+                src="/logo.png"
                 alt="logo"
-                width="100"
-                height="100"
               />
+              <span className="font-serif tracking-wider text-xl font-bold">Shadow</span>
             </Link>
           </div>
         </div>
 
         <button
           onClick={handleToggle}
-          className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-200"
+          className="mobile-menu-button p-4 focus:outline-none hover:bg-gray-800 transition-colors"
         >
-          <AiOutlineBars className="h-5 w-5" />
+          <AiOutlineBars className="h-6 w-6 text-brand-primary" />
         </button>
       </div>
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive && "-translate-x-full"
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
+        className={`z-40 md:fixed flex flex-col justify-between overflow-x-hidden bg-[#1E1E2D] w-[280px] space-y-6 px-6 py-8 absolute inset-y-0 left-0 transform ${
+          isActive ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl border-r border-gray-800 h-screen mt-[72px] md:mt-0`}
       >
         <div>
-          <div>
-            <div className="w-full hidden md:flex px-4 py-2  justify-center items-center  mx-auto">
-              <Link to="/">
-                <img
-                  className="w-full rounded-lg shadow-lg"
-                  src="https://i.ibb.co/S0pnvyQ/Shadoww.png"
-                  alt="logo"
-                  width="100"
-                  height="100"
-                />
-              </Link>
-            </div>
+          <div className="w-full hidden md:flex px-2 py-2 justify-start items-center mx-auto mb-8">
+            <Link to="/" className="flex items-center gap-4 hover:scale-105 transition-transform">
+              <img
+                className="w-12 h-12 rounded-xl shadow-lg drop-shadow-md border border-white/10"
+                src="/logo.png"
+                alt="logo"
+              />
+              <span className="font-serif text-white font-bold tracking-wide text-xl leading-tight">Shadow<br/><span className="text-brand-primary text-sm font-sans tracking-normal">Tourist</span></span>
+            </Link>
           </div>
 
+          <div className="w-full h-px bg-gray-800 mb-8 hidden md:block"></div>
+
           {/* Nav Items */}
-          <div className="flex flex-col justify-between flex-1 mt-6">
-            {/* Conditional toggle button here.. */}
-
-            {/*  Menu Items */}
-            <nav>
-
-             {/* Common */}
-              {/* Statistics */}
+          <div className="flex flex-col justify-between flex-1 text-gray-400">
+            <nav className="space-y-1">
               <MenuItem label={'Dashboard Home'} address={'/dashboard'} icon={FaHome}></MenuItem>
               
-
-              { role === 'tourist' && <TouristMenu></TouristMenu>}
-              { role === 'guide' && <GuideMenu></GuideMenu>}
-              { role === 'admin' && <AdminMenu></AdminMenu>}
-             {/* Admin Menu */}
-             {/* <AdminMenu></AdminMenu> */}
-
-              {/* Tourist Menu
-              <TouristMenu></TouristMenu> */}
-              
-              
+              {role === 'tourist' && <TouristMenu></TouristMenu>}
+              {role === 'guide' && <GuideMenu></GuideMenu>}
+              {role === 'admin' && <AdminMenu></AdminMenu>}
             </nav>
           </div>
         </div>
 
         <div>
-          <hr />
+          <div className="w-full h-px bg-gray-800 mb-6"></div>
 
           <button
             onClick={() => logOut(navigate("/"))}
-            className="flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
+            className="flex w-full items-center px-4 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-xl transition-all duration-300 transform group"
           >
-            <GrLogout className="w-5 h-5" />
-
-            <span className="mx-4 font-medium">Logout</span>
+            <GrLogout className="w-6 h-6 transition-transform group-hover:-translate-x-1" />
+            <span className="mx-4 font-medium tracking-wide">Logout</span>
           </button>
         </div>
       </div>
+      
+      {/* Overlay for mobile */}
+      {isActive && (
+        <div 
+          className="fixed inset-0 bg-black/60 z-30 md:hidden backdrop-blur-sm mt-[72px]"
+          onClick={handleToggle}
+        ></div>
+      )}
     </>
   );
 };

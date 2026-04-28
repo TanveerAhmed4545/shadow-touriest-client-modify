@@ -1,170 +1,134 @@
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../../../public/logo.png"
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import demoUserPic from "../../../assets/demoUser.png";
+import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
+
 const Navbar = () => {
-
-  const { user,logOut } = useAuth();
-    const [scrolled, setScrolled] = useState(false);
-
-  const handleScroll = () => {
-    const offset = window.scrollY;
-    if (offset > 50) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
-  };
+  const { user, logOut } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-    const links = <>
-    {/* <li><NavLink  to='/' className={'font-semibold '}>Home</NavLink></li>
-    <li><NavLink  to='/about' className={'font-semibold '}>About</NavLink></li> */}
-    <li><NavLink  to='/'  className={({ isActive, isPending }) =>
-         isActive
-           ? "bg-none  bg-[#4692FF] border-none text-white font-semibold border-black mr-3"
-           : isPending
-           ? "pending"
-           : `mr-3 ${scrolled? 'text-black' : 'text-[#4692FF]'} font-bold`
-       }>Home</NavLink></li>
-           <li><NavLink  to='/blogs'  className={({ isActive, isPending }) =>
-         isActive
-           ? "bg-none border-none bg-[#4692FF] text-white font-semibold border-black mr-3"
-           : isPending
-           ? "pending"
-           : `mr-3 ${scrolled? 'text-black' : 'text-[#4692FF]'} font-bold`
-       }>Blogs</NavLink></li>
-           
-    <li><NavLink  to='/about'  className={({ isActive, isPending }) =>
-         isActive
-           ? "bg-none border-none bg-[#4692FF] text-white font-semibold border-black mr-3"
-           : isPending
-           ? "pending"
-           : `mr-3 ${scrolled? 'text-black' : 'text-[#4692FF]'} font-bold`
-       }>About Us</NavLink></li>
-    <li><NavLink  to='/contact'  className={({ isActive, isPending }) =>
-         isActive
-           ? "bg-none border-none bg-[#4692FF] text-white font-semibold border-black mr-3"
-           : isPending
-           ? "pending"
-           : `mr-3 ${scrolled? 'text-black' : 'text-[#4692FF]'} font-bold`
-       }>Contact Us</NavLink></li>
-       <li><NavLink  to='/community'  className={({ isActive, isPending }) =>
-         isActive
-           ? "bg-none border-none bg-[#4692FF] text-white font-semibold border-black mr-3"
-           : isPending
-           ? "pending"
-           : `mr-3 ${scrolled? 'text-black' : 'text-[#4692FF]'} font-bold`
-       }>Community</NavLink></li>
+  const linkStyle = ({ isActive }) =>
+    isActive
+      ? "text-brand-secondary font-medium transition-colors duration-300"
+      : "text-white font-medium hover:text-brand-secondary transition-colors duration-300";
 
-
-    {
-       !user && <>
-      <li><NavLink  to='/login'  className={({ isActive, isPending }) =>
-   isActive
-     ? "bg-none border-none bg-[#4692FF] text-white font-semibold border-black mr-3"
-     : isPending
-     ? "pending"
-     : `mr-3 ${scrolled? 'text-black' : 'text-[#4692FF]'} font-bold`
- }>Login</NavLink></li>
- <li><NavLink  to='/register'  className={({ isActive, isPending }) =>
-   isActive
-     ? `bg-none border-none bg-[#4692FF] ${scrolled? 'text-black' : 'text-white'} font-semibold border-black mr-3`
-     : isPending
-     ? "pending"
-     : `mr-3 ${scrolled? 'text-black' : 'text-[#4692FF]'} font-bold`
- }>Register</NavLink></li>
-      </>
-    }
-        
+  const links = (
+    <>
+      <li><NavLink to='/' className={linkStyle} onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink></li>
+      <li><NavLink to='/blogs' className={linkStyle} onClick={() => setIsMobileMenuOpen(false)}>Blogs</NavLink></li>
+      <li><NavLink to='/about' className={linkStyle} onClick={() => setIsMobileMenuOpen(false)}>About Us</NavLink></li>
+      <li><NavLink to='/contact' className={linkStyle} onClick={() => setIsMobileMenuOpen(false)}>Contact Us</NavLink></li>
+      <li><NavLink to='/community' className={linkStyle} onClick={() => setIsMobileMenuOpen(false)}>Community</NavLink></li>
+      {!user && (
+        <>
+          <li><NavLink to='/login' className={linkStyle} onClick={() => setIsMobileMenuOpen(false)}>Login</NavLink></li>
+          <li><NavLink to='/register' className={linkStyle} onClick={() => setIsMobileMenuOpen(false)}>Register</NavLink></li>
+        </>
+      )}
     </>
+  );
 
+  const handleSignOut = () => {
+    logOut()
+      .then(() => {
+        toast.success('Logout Completed');
+      })
+      .catch(() => {
+        toast.warn("Error");
+      });
+  };
 
-
-const handleSignOut = () =>{
-  
-  logOut()
-  .then(result =>{
-    console.log(result);
-     toast.success('Logout Completed');
-  })
-  .catch(error =>{
-    console.log(error);
-      toast.warn("Error");
-  })
-
-}
-
-
-
-    return (
-        <div className={`navbar ${scrolled ? 'bg-[#AACBFF]' : 'bg-transparent '} fixed top-0 z-50 transition-colors duration-300`}>
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className={`btn btn-ghost ${scrolled? 'text-black' : 'text-white'} lg:hidden`}>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-            </div>
-            <ul tabIndex={0} className="menu menu-sm  dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-              {
-                  links
-              }
-            </ul>
-          </div>
-         
-          <Link to='/' className='flex  items-center'>
-                  <img className='w-auto h-10' src={logo}  />
-                  {
-                    scrolled ? <span className='font-black text-sm md:text-xl  text-black '>Shadow Tourist</span> : <span className='font-black text-sm md:text-xl text-white '>Shadow Tourist</span>
-                  }
-                  
-                </Link>
+  return (
+    <div className="fixed top-0 w-full z-50">
+      {/* Navbar Container */}
+      <div className={`rounded-b-[40px] px-6 md:px-12 py-5 flex items-center justify-between transition-all duration-300 ${scrolled ? 'bg-brand-dark shadow-xl' : 'bg-transparent'}`}>
+        
+        {/* Left: Logo */}
+        <div className="flex-shrink-0">
+          <Link to='/' className='flex items-center gap-3 hover:scale-105 transition-transform duration-300'>
+            <img className='w-auto h-10' src="/logo.png" alt="Logo" />
+            <span className="font-serif text-2xl font-extrabold tracking-wide text-white">Shadow Tourist</span>
+          </Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu  menu-horizontal px-1">
-            {
-              links
-            }
+
+        {/* Center: Desktop Links */}
+        <div className="hidden lg:flex items-center flex-1 justify-center">
+          <ul className="flex items-center gap-8 text-lg">
+            {links}
           </ul>
         </div>
-        <div className="navbar-end">
-       {
-        user &&  <div className="dropdown dropdown-end">
-        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-          <div className="w-10 rounded-full">
-            <img alt="Tailwind CSS Navbar component" src={user?.photoURL ? user.photoURL : demoUserPic} />
-          </div>
+
+        {/* Right: Actions */}
+        <div className="flex items-center gap-5">
+          
+          {/* Search Icon */}
+          <Link to="/allPackages" className="text-white hover:text-brand-secondary transition-colors duration-300 p-2 block">
+            <FaSearch size={20} />
+          </Link>
+
+          {/* User Auth Dropdown */}
+          {user && (
+            <div className="dropdown dropdown-end hidden sm:block">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar border-2 border-transparent hover:border-brand-secondary transition-colors duration-300">
+                <div className="w-10 rounded-full">
+                  <img alt="User avatar" src={user?.photoURL ? user.photoURL : demoUserPic} />
+                </div>
+              </div>
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-white rounded-2xl w-52 text-brand-dark">
+                <li className="font-semibold px-4 py-2 border-b border-gray-100">{user?.displayName}</li>
+                <li className="text-xs text-gray-500 px-4 py-1 pb-2">{user?.email}</li>
+                <Link to={'/dashboard'}>
+                  <li><p className="hover:text-brand-secondary hover:bg-gray-50 font-medium">Dashboard</p></li>
+                </Link>
+                <li><button className="text-red-500 hover:bg-red-50 hover:text-red-600 font-medium mt-1" onClick={handleSignOut}>Logout</button></li>
+              </ul>
+            </div>
+          )}
+
+          {/* Mobile Menu Toggle Button */}
+          <button 
+            className="lg:hidden bg-white/10 p-3 rounded-xl text-white hover:bg-brand-secondary transition-colors duration-300"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
+
         </div>
-        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
-            <a className="justify-between">
-              {user?.displayName}
-              
-            </a>
-          </li>
-          <li><a className="justify-between">
-              {user?.email}
-            </a></li>
-            <Link to={'/dashboard'}>
-            <li > <p className="justify-between">Dashboard</p>
-              
-            </li>
-            </Link>
-          <li><button className="btn btn-sm " onClick={handleSignOut}>Logout</button></li>
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      <div 
+        className={`absolute top-[90px] left-4 right-4 bg-brand-dark rounded-[30px] p-8 shadow-2xl lg:hidden transform transition-all duration-300 origin-top ${isMobileMenuOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none'}`}
+      >
+        <ul className="flex flex-col gap-6 text-center text-lg">
+          {links}
+          {user && (
+            <>
+              <li className="border-t border-white/10 pt-4"><Link to={'/dashboard'} className="text-white font-medium" onClick={() => setIsMobileMenuOpen(false)}>Dashboard</Link></li>
+              <li><button className="text-brand-secondary font-bold" onClick={() => { handleSignOut(); setIsMobileMenuOpen(false); }}>Logout</button></li>
+            </>
+          )}
         </ul>
       </div>
-       }
-         
-        </div>
-      </div>
-    );
+    </div>
+  );
 };
 
 export default Navbar;
