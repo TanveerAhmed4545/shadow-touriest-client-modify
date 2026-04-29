@@ -1,10 +1,11 @@
+import Loader from "../../../components/Shared/Loader";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useBooking from "../../../hooks/useBooking";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
-import Lottie from "lottie-react";
-import loaderAnimation from "../../../assets/loader.json";
+
+
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -129,9 +130,7 @@ const CheckoutForm = ({id}) => {
 
     }
 
-    if(isLoading) return <div className="flex justify-center items-center ">
-    <Lottie className="w-1/3" animationData={loaderAnimation} loop={true} />
-    </div>
+    if(isLoading) return <Loader />
 
     return (
         <div>

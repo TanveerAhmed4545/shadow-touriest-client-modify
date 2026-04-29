@@ -1,9 +1,7 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from "react-responsive-carousel";
 import { motion } from "framer-motion";
-import { FaSearch } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const slides = [
@@ -18,19 +16,6 @@ const Banner = () => {
       subtitle: "Discover",
     }
   ];
-
-  const navigate = useNavigate();
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const destination = e.target.destination.value;
-    if (!destination) {
-       navigate('/allPackages');
-    } else {
-       toast.success(`Searching for ${destination}...`);
-       navigate('/allPackages', { state: { search: destination } });
-    }
-  };
 
   return (
     <div className="relative">
@@ -48,7 +33,7 @@ const Banner = () => {
         {slides.map((slide, index) => (
           <div key={index} className="relative h-[100vh] w-full overflow-hidden">
             <div
-              className="absolute inset-0 bg-cover bg-center transform scale-105 transition-transform duration-[10000ms] ease-out"
+              className="absolute inset-0 bg-cover bg-center transform-gpu scale-105 transition-transform duration-[10000ms] ease-out will-change-transform"
               style={{ backgroundImage: `url(${slide.image})` }}
             ></div>
             <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/40 via-transparent to-brand-dark/20"></div>
@@ -79,29 +64,6 @@ const Banner = () => {
           </div>
         ))}
       </Carousel>
-      
-      {/* Floating Search Bar */}
-      <form onSubmit={handleSearch} className="absolute bottom-[-60px] md:bottom-[-40px] left-1/2 transform -translate-x-1/2 z-20 w-11/12 max-w-4xl">
-         <div className="bg-white rounded-[30px] md:rounded-full shadow-2xl p-3 flex flex-col md:flex-row items-center justify-between border-4 border-white/50 backdrop-blur-md">
-            <div className="flex-1 flex flex-col md:flex-row w-full divide-y md:divide-y-0 md:divide-x divide-gray-200">
-               <div className="px-6 py-3 md:py-2 flex-1">
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Destination</p>
-                  <input name="destination" type="text" placeholder="Where to?" className="w-full text-brand-dark font-bold outline-none bg-transparent" />
-               </div>
-               <div className="px-6 py-2 flex-1">
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Date</p>
-                  <input type="text" placeholder="When?" className="w-full text-brand-dark font-bold outline-none bg-transparent" />
-               </div>
-               <div className="px-6 py-2 flex-1 hidden md:block">
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Guests</p>
-                  <input type="text" placeholder="How many?" className="w-full text-brand-dark font-bold outline-none bg-transparent" />
-               </div>
-            </div>
-            <button type="submit" className="bg-brand-dark text-white p-5 rounded-full hover:bg-brand-primary transition-colors mt-4 md:mt-0 shadow-lg w-full md:w-auto flex justify-center">
-               <FaSearch />
-            </button>
-         </div>
-      </form>
     </div>
   );
 };

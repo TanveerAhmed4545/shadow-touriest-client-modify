@@ -1,16 +1,13 @@
-import Lottie from "lottie-react";
+import Loader from "../../../components/Shared/Loader";
 import useGuide from "../../../hooks/useGuide";
 import TourGuideCard from "./TourGuideCard";
-import loaderAnimation from "../../../assets/loader.json";
 import { Link } from "react-router-dom";
 
 const OurTourGuide = () => {
     const [guides, loading] = useGuide();
     
     if (loading) return (
-      <div className="flex justify-center items-center py-20 bg-white">
-        <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
-      </div>
+      <Loader />
     );
     
     return (

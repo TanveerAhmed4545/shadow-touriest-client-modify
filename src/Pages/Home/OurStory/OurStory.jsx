@@ -1,6 +1,5 @@
+import Loader from "../../../components/Shared/Loader";
 import StoryCard from "./StoryCard";
-import Lottie from "lottie-react";
-import loaderAnimation from "../../../assets/loader.json";
 import useStory from "../../../hooks/useStory";
 
 const OurStory = () => {
@@ -8,9 +7,7 @@ const OurStory = () => {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center py-20 bg-white">
-        <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
-      </div>
+      <Loader />
     );
 
   return (

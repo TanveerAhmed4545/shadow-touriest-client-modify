@@ -25,7 +25,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Small Screen Navbar */}
-      <div className="bg-[#1E1E2D] text-white flex justify-between md:hidden shadow-md fixed w-full z-50 top-0 border-b border-gray-800">
+      <div className="bg-white text-brand-dark flex justify-between md:hidden shadow-md fixed w-full z-50 top-0 border-b border-gray-200">
         <div>
           <div className="block cursor-pointer p-4 font-bold">
             <Link to="/" className="flex items-center gap-3">
@@ -49,9 +49,9 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`z-40 md:fixed flex flex-col justify-between overflow-x-hidden bg-[#1E1E2D] w-[280px] space-y-6 px-6 py-8 absolute inset-y-0 left-0 transform ${
+        className={`z-40 md:fixed flex flex-col justify-between overflow-x-hidden bg-white w-[280px] space-y-6 px-6 py-8 absolute inset-y-0 left-0 transform ${
           isActive ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl border-r border-gray-800 h-screen mt-[72px] md:mt-0`}
+        } md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl border-r border-gray-200 h-screen mt-[72px] md:mt-0`}
       >
         <div>
           <div className="w-full hidden md:flex px-2 py-2 justify-start items-center mx-auto mb-8">
@@ -61,14 +61,14 @@ const Sidebar = () => {
                 src="/logo.png"
                 alt="logo"
               />
-              <span className="font-serif text-white font-bold tracking-wide text-xl leading-tight">Shadow<br/><span className="text-brand-primary text-sm font-sans tracking-normal">Tourist</span></span>
+              <span className="font-serif text-brand-dark font-bold tracking-wide text-xl leading-tight">Shadow<br/><span className="text-brand-primary text-sm font-sans tracking-normal">Tourist</span></span>
             </Link>
           </div>
 
-          <div className="w-full h-px bg-gray-800 mb-8 hidden md:block"></div>
+          <div className="w-full h-px bg-gray-200 mb-8 hidden md:block"></div>
 
           {/* Nav Items */}
-          <div className="flex flex-col justify-between flex-1 text-gray-400">
+          <div className="flex flex-col justify-between flex-1 text-gray-600">
             <nav className="space-y-1">
               <MenuItem label={'Dashboard Home'} address={'/dashboard'} icon={FaHome}></MenuItem>
               
@@ -80,7 +80,7 @@ const Sidebar = () => {
         </div>
 
         <div>
-          <div className="w-full h-px bg-gray-800 mb-6"></div>
+          <div className="w-full h-px bg-gray-200 mb-6"></div>
 
           <button
             onClick={() => logOut(navigate("/"))}

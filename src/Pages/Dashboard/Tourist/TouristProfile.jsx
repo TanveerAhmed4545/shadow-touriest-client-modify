@@ -65,31 +65,38 @@ const TouristProfile = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-1 glass-card rounded-2xl overflow-hidden shadow-sm h-fit"
+          className="lg:col-span-1 bg-white rounded-[30px] overflow-hidden shadow-sm border border-gray-100 h-fit"
         >
-          <div className="h-32 bg-brand-primary w-full relative">
-            <div className="absolute inset-0 bg-[url('https://i.ibb.co/bFLrQgX/simon-english-48ner-ZQCHgo-unsplash-1.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
+          <div className="h-40 bg-brand-dark w-full relative">
+            <img 
+              src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+              alt="Cover" 
+              className="absolute inset-0 w-full h-full object-cover opacity-60"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 to-transparent"></div>
           </div>
-          <div className="px-6 pb-6 relative">
-            <div className="flex justify-center -mt-12 mb-4">
-              <img
-                alt="profile"
-                src={user?.photoURL || "https://i.ibb.co/v3n5428/placeholder-avatar.jpg"}
-                className="object-cover rounded-full h-24 w-24 border-4 border-white shadow-md bg-white"
-              />
+          <div className="px-6 pb-8 relative">
+            <div className="flex justify-center -mt-16 mb-4">
+              <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white relative z-10">
+                <img
+                  alt="profile"
+                  src={user?.photoURL || "https://i.ibb.co/v3n5428/placeholder-avatar.jpg"}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
             
-            <div className="text-center mb-6">
-              <span className="px-3 py-1 bg-brand-secondary/20 text-brand-secondary font-semibold text-xs tracking-widest uppercase rounded-full">
-                Tourist
+            <div className="text-center mb-6 mt-2">
+              <span className="px-4 py-1.5 bg-brand-secondary/10 text-brand-secondary font-bold text-xs tracking-widest uppercase rounded-full">
+                Explorer
               </span>
-              <h2 className="mt-4 text-xl font-bold text-brand-primary">{user?.displayName}</h2>
-              <p className="text-gray-500 text-sm mt-1">{user?.email}</p>
+              <h2 className="mt-4 text-2xl font-serif font-bold text-brand-dark">{user?.displayName}</h2>
+              <p className="text-gray-500 font-medium text-sm mt-1">{user?.email}</p>
             </div>
             
-            <div className="border-t border-gray-100 pt-4 mt-4">
-              <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">User ID</p>
-              <p className="text-sm font-mono text-gray-600 truncate">{user?.uid}</p>
+            <div className="border-t border-gray-100 pt-5 mt-5">
+              <p className="text-xs text-brand-primary font-bold uppercase tracking-wider mb-1">User ID</p>
+              <p className="text-sm font-mono text-gray-500 truncate bg-gray-50 p-2 rounded-lg">{user?.uid}</p>
             </div>
           </div>
         </motion.div>

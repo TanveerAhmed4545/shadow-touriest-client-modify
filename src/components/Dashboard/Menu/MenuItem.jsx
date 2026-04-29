@@ -10,7 +10,7 @@ const MenuItem = ({ label, address, icon: Icon }) => {
         `flex items-center px-4 py-3 my-2 transition-all duration-300 transform rounded-xl group ${
           isActive 
             ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/30' 
-            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+            : 'text-gray-600 hover:bg-brand-primary/10 hover:text-brand-primary'
         }`
       }
     >

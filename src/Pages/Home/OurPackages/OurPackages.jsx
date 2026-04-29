@@ -1,15 +1,12 @@
-import Lottie from "lottie-react";
+import Loader from "../../../components/Shared/Loader";
 import usePackage from "../../../hooks/usePackage";
 import PackagesCard from "./PackagesCard";
-import loaderAnimation from "../../../assets/loader.json";
 
 const OurPackages = () => {
     const [packages, loading, refetch] = usePackage();
     
     if (loading) return (
-      <div className="flex justify-center items-center py-20 bg-[#F5F9F9]">
-        <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
-      </div>
+      <Loader />
     );
 
     return (

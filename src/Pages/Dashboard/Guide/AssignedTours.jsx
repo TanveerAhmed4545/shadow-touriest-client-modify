@@ -1,10 +1,11 @@
+import Loader from "../../../components/Shared/Loader";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import moment from "moment";
 import Swal from "sweetalert2";
-import Lottie from "lottie-react";
-import loaderAnimation from "../../../assets/loader.json";
+
+
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 
@@ -144,9 +145,7 @@ const AssignedTours = () => {
 
     }
 
-    if(isLoading || loading) return <div className="flex justify-center items-center ">
-    <Lottie className="w-1/3" animationData={loaderAnimation} loop={true} />
-    </div>
+    if(isLoading || loading) return <Loader />
 
   return (
     <div className="flex flex-col min-h-[90vh]">

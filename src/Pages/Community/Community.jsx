@@ -1,3 +1,4 @@
+import Loader from "../../components/Shared/Loader";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { FaUsers, FaBookOpen, FaCalendarAlt, FaHandsHelping, FaShareAlt, FaStar, FaMapMarkerAlt } from "react-icons/fa";
@@ -5,8 +6,6 @@ import useStory from "../../hooks/useStory";
 import useGuide from "../../hooks/useGuide";
 import StoryCard from "../Home/OurStory/StoryCard";
 import TourGuideCard from "../Home/OurTourGuide/TourGuideCard";
-import Lottie from "lottie-react";
-import loaderAnimation from "../../assets/loader.json";
 
 const Community = () => {
   const [stories, isLoadingStories] = useStory();
@@ -14,9 +13,7 @@ const Community = () => {
 
   if (isLoadingStories || isLoadingGuides) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Lottie className="w-1/3 max-w-xs" animationData={loaderAnimation} loop={true} />
-      </div>
+      <Loader />
     );
   }
 

@@ -1,10 +1,11 @@
+import Loader from "../../components/Shared/Loader";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { Link, NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import Lottie from "lottie-react";
-import loaderAnimation from "../../assets/loader.json";
+
+
 import ReactDatePicker from "react-datepicker";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
@@ -100,9 +101,7 @@ const PackageDetails = () => {
 
   if (loading || !details)
     return (
-      <div className="flex justify-center items-center py-32 bg-brand-light">
-        <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
-      </div>
+      <Loader />
     );
 
   return (

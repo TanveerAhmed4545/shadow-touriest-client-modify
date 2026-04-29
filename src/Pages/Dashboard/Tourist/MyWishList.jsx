@@ -1,8 +1,9 @@
+import Loader from "../../../components/Shared/Loader";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
-import Lottie from "lottie-react";
-import loaderAnimation from "../../../assets/loader.json";
+
+
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
@@ -78,9 +79,7 @@ const MyWishList = () => {
   };
 
   if (isLoading || loading) return (
-    <div className="flex justify-center items-center h-64">
-      <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
-    </div>
+    <Loader />
   );
 
   return (

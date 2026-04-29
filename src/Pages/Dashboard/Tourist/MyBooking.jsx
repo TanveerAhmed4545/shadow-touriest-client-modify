@@ -1,6 +1,7 @@
+import Loader from "../../../components/Shared/Loader";
 import useWindowSize from 'react-use/lib/useWindowSize';
-import Lottie from "lottie-react";
-import loaderAnimation from "../../../assets/loader.json";
+
+
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -89,9 +90,7 @@ const MyBooking = () => {
   };
 
   if (isLoading || loading) return (
-    <div className="flex justify-center items-center h-64">
-      <Lottie className="w-48" animationData={loaderAnimation} loop={true} />
-    </div>
+    <Loader />
   );
 
   return (

@@ -34,11 +34,11 @@ const About = () => {
           <div className="relative h-[600px] hidden lg:block">
             {/* Main large image (Pill shape) */}
             <div className="absolute left-0 top-0 w-[70%] h-[80%] rounded-full overflow-hidden border-8 border-white shadow-xl z-10">
-              <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Traveler" className="w-full h-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1528543606781-2f6e6857f318?w=800&auto=format&fit=crop" alt="Traveler" className="w-full h-full object-cover" />
             </div>
             {/* Secondary smaller image overlapping (Circle) */}
             <div className="absolute right-0 bottom-[10%] w-[55%] h-[45%] rounded-full overflow-hidden border-8 border-white shadow-2xl z-20">
-              <img src="https://images.unsplash.com/photo-1504280390467-311822857e4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Camping" className="w-full h-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&auto=format&fit=crop" alt="Camping" className="w-full h-full object-cover" />
             </div>
             {/* Experience Badge (Circle) */}
             <div className="absolute left-[10%] bottom-0 w-32 h-32 bg-brand-secondary rounded-full flex flex-col items-center justify-center text-white shadow-xl z-30 transform hover:scale-110 transition-transform duration-300">
@@ -50,10 +50,10 @@ const About = () => {
           {/* Mobile Image Stack (Simplified for smaller screens) */}
           <div className="lg:hidden relative h-[400px] w-full max-w-md mx-auto mb-10">
              <div className="absolute top-0 left-0 w-3/4 h-3/4 rounded-[40px] overflow-hidden border-4 border-white shadow-lg z-10">
-               <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Travel" className="w-full h-full object-cover" />
+               <img src="https://images.unsplash.com/photo-1528543606781-2f6e6857f318?w=600&auto=format&fit=crop" alt="Travel" className="w-full h-full object-cover" />
              </div>
              <div className="absolute bottom-0 right-0 w-2/3 h-2/3 rounded-full overflow-hidden border-4 border-white shadow-xl z-20">
-               <img src="https://images.unsplash.com/photo-1504280390467-311822857e4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Adventure" className="w-full h-full object-cover" />
+               <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500&auto=format&fit=crop" alt="Adventure" className="w-full h-full object-cover" />
              </div>
           </div>
 

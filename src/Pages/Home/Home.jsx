@@ -8,7 +8,6 @@ import PromoBanner from "./ExperienceStats/PromoBanner";
 import Testimonial from "./Testimonial/Testimonial";
 import AdventureCTA from "./AdventureCTA/AdventureCTA";
 import OurStory from "./OurStory/OurStory";
-import SubscribeBanner from "./SubscribeBanner/SubscribeBanner";
 
 const Home = () => {
     return (
@@ -26,7 +25,6 @@ const Home = () => {
             <Testimonial />
             <AdventureCTA />
             <OurStory />
-            <SubscribeBanner />
             
         </div>
     );

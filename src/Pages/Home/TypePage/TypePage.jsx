@@ -1,8 +1,7 @@
+import Loader from "../../../components/Shared/Loader";
 import { useParams, Link } from "react-router-dom";
 import usePackage from "../../../hooks/usePackage";
 import PackagesCard from "../OurPackages/PackagesCard";
-import Lottie from "lottie-react";
-import loaderAnimation from "../../../assets/loader.json";
 
 const TypePage = () => {
   const { id } = useParams();
@@ -10,9 +9,7 @@ const TypePage = () => {
   const detailsPack = packages.filter((d) => d.tourType == id);
 
   if (loading) return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Lottie className="w-1/3 max-w-xs" animationData={loaderAnimation} loop={true} />
-      </div>
+      <Loader />
     );
     
   return (
