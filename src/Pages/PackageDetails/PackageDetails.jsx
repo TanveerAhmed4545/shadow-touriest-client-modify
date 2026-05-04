@@ -4,8 +4,6 @@ import { Helmet } from "react-helmet-async";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { Link, NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-
-
 import ReactDatePicker from "react-datepicker";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
@@ -17,6 +15,8 @@ import TourGuideCard from "../Home/OurTourGuide/TourGuideCard";
 import useBooking from "../../hooks/useBooking";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import WeatherWidget from "../../components/Shared/WeatherWidget";
+import ItineraryTimeline from "./ItineraryTimeline";
 
 const PackageDetails = () => {
   const { booking } = useBooking();
@@ -33,7 +33,7 @@ const PackageDetails = () => {
     data: details = {},
     isPending: loading,
   } = useQuery({
-    queryKey: ["packagesDetails"],
+    queryKey: ["packagesDetails", id],
     queryFn: async () => {
       const res = await axiosPublic.get(`/package/${id}`);
       return res.data;
@@ -121,14 +121,19 @@ const PackageDetails = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
         <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 max-w-7xl mx-auto flex flex-col justify-end h-full">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <span className="px-4 py-1 bg-brand-secondary text-brand-primary font-bold tracking-widest uppercase text-xs rounded-full mb-4 inline-block">
-              {details?.tourType}
-            </span>
-            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-serif font-bold drop-shadow-lg mb-4 max-w-4xl leading-tight">
-              {details?.tripTitle}
-            </h1>
-          </motion.div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+              <span className="px-4 py-1 bg-brand-secondary text-brand-primary font-bold tracking-widest uppercase text-xs rounded-full mb-4 inline-block">
+                {details?.tourType}
+              </span>
+              <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-serif font-bold drop-shadow-lg mb-4 max-w-4xl leading-tight">
+                {details?.tripTitle}
+              </h1>
+            </motion.div>
+            <div className="mb-6">
+              <WeatherWidget location={details?.tripTitle?.split(' ')[0] || 'Worldwide'} />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -160,21 +165,9 @@ const PackageDetails = () => {
             </section>
 
             {/* Itinerary */}
-            <section className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-gray-100">
-              <h2 className="text-3xl font-serif text-brand-primary font-bold mb-8">Itinerary</h2>
-              <div className="space-y-4">
-                {details?.tourPlan?.map((day, index) => (
-                  <div key={index} className="collapse collapse-plus bg-gray-50 border border-gray-100 rounded-xl">
-                    <input type="radio" name="itinerary-accordion" defaultChecked={index === 0} />
-                    <div className="collapse-title text-xl font-medium text-brand-primary bg-white rounded-t-xl border-b border-gray-100">
-                      <span className="text-brand-secondary font-bold mr-2">Day {day.day}:</span> Plan
-                    </div>
-                    <div className="collapse-content bg-white pt-4 text-gray-600 font-light rounded-b-xl">
-                      <p>{day.activities}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <section className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <h2 className="text-3xl font-serif text-brand-primary font-bold mb-12 text-center">Itinerary Timeline</h2>
+              <ItineraryTimeline plan={details?.tourPlan} />
             </section>
 
             {/* Tour Guides */}

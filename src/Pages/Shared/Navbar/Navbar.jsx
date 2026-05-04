@@ -4,11 +4,13 @@ import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import demoUserPic from "../../../assets/demoUser.png";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
+import SearchOverlay from "../../../components/Shared/SearchOverlay";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,6 +59,8 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 w-full z-50">
+      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      
       {/* Navbar Container */}
       <div className={`rounded-b-[40px] px-6 md:px-12 py-5 flex items-center justify-between transition-all duration-300 ${scrolled ? 'bg-brand-dark shadow-xl' : 'bg-transparent'}`}>
         
@@ -79,9 +83,12 @@ const Navbar = () => {
         <div className="flex items-center gap-5">
           
           {/* Search Icon */}
-          <Link to="/allPackages" className="text-white hover:text-brand-secondary transition-colors duration-300 p-2 block">
+          <button 
+            onClick={() => setIsSearchOpen(true)}
+            className="text-white hover:text-brand-secondary transition-colors duration-300 p-2 block cursor-pointer"
+          >
             <FaSearch size={20} />
-          </Link>
+          </button>
 
           {/* User Auth Dropdown */}
           {user && (

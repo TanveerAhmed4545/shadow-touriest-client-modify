@@ -21,6 +21,9 @@
   .glass-nav {
     @apply bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm text-brand-dark;
   }
+  .glass-card {
+    @apply bg-white/40 backdrop-blur-md border border-white/20 shadow-xl;
+  }
   .btn-primary {
     @apply bg-brand-primary text-white font-bold rounded-full hover:bg-[#4a8a32] transition-all duration-300 shadow-md px-8 py-3 transform hover:-translate-y-1 inline-flex items-center justify-center gap-2;
   }
@@ -30,4 +33,17 @@
   .btn-outline-primary {
     @apply border-2 border-brand-primary text-brand-primary font-bold rounded-full hover:bg-brand-primary hover:text-white transition-all duration-300 px-8 py-3 inline-flex items-center justify-center gap-2;
   }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary;
+  }
+  .shimmer {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
