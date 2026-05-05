@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const axiosPublic = axios.create({
-    baseURL: 'https://react-shadow-tourist-server.vercel.app',
+    baseURL: 'https://backendfix-ten.vercel.app',
 })
 
 const useAxiosPublic = () => {
