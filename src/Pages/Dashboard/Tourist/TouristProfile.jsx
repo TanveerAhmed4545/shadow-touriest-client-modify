@@ -3,16 +3,39 @@ import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const TouristProfile = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
+  
+  const [imagePreview, setImagePreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setSelectedFile(null);
+      setImagePreview(null);
+    }
+  };
 
   const handleStory = async (e) => {
     e.preventDefault();
+    if (!selectedFile) {
+      toast.error("Please select an image for your story.");
+      return;
+    }
+    
+    setUploading(true);
     const form = e.target;
-    const imageUrl = form.imageUrl.value;
     const title = form.title.value;
     const story = form.story.value;
     const name = user?.displayName;
@@ -20,17 +43,29 @@ const TouristProfile = () => {
     const email = user?.email;
     const timestamp = new Date();
 
-    const storyData = {
-      imageUrl,
-      title,
-      story,
-      name,
-      profilePicture,
-      email,
-      timestamp,
-    };
-
     try {
+      const imgBBKey = import.meta.env.VITE_IMGBB_API_KEY;
+      if (!imgBBKey) {
+          toast.error("ImgBB API key is missing in environment variables.");
+          setUploading(false);
+          return;
+      }
+      
+      const formData = new FormData();
+      formData.append('image', selectedFile);
+      const imgRes = await axiosPublic.post(`https://api.imgbb.com/1/upload?key=${imgBBKey}`, formData);
+      const imageUrl = imgRes.data.data.display_url;
+
+      const storyData = {
+        imageUrl,
+        title,
+        story,
+        name,
+        profilePicture,
+        email,
+        timestamp,
+      };
+
       const storyRes = await axiosSecure.post("/story", storyData);
       if (storyRes.data.insertedId) {
         Swal.fire({
@@ -41,11 +76,16 @@ const TouristProfile = () => {
           timer: 1500,
         });
         form.reset();
+        setImagePreview(null);
+        setSelectedFile(null);
       } else {
         toast.error("Failed to publish story");
       }
     } catch (error) {
-      toast.error("An error occurred");
+      console.error(error);
+      toast.error("An error occurred while publishing");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -80,7 +120,8 @@ const TouristProfile = () => {
               <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white relative z-10">
                 <img
                   alt="profile"
-                  src={user?.photoURL || "https://i.ibb.co/v3n5428/placeholder-avatar.jpg"}
+                  src={user?.photoURL || "https://ui-avatars.com/api/?name=User&background=random"}
+                  onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random` }}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -126,14 +167,20 @@ const TouristProfile = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Image URL</label>
+                <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Story Image</label>
                 <input
-                  name="imageUrl"
-                  type="url"
-                  placeholder="https://example.com/image.jpg"
-                  className="input input-bordered w-full bg-gray-50 focus:bg-white transition-colors"
+                  name="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="file-input file-input-bordered w-full bg-gray-50 focus:bg-white transition-colors"
                   required
                 />
+                {imagePreview && (
+                  <div className="mt-3 rounded-xl overflow-hidden border border-gray-200 shadow-sm h-32 relative">
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -149,8 +196,12 @@ const TouristProfile = () => {
             </div>
 
             <div className="pt-4">
-              <button type="submit" className="btn-luxury w-full py-4 rounded-xl text-sm font-bold tracking-widest uppercase shadow-md hover:shadow-lg transition-all">
-                Publish Story
+              <button 
+                type="submit" 
+                disabled={uploading}
+                className="btn-luxury w-full py-4 rounded-xl text-sm font-bold tracking-widest uppercase shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {uploading ? 'Publishing...' : 'Publish Story'}
               </button>
             </div>
           </form>

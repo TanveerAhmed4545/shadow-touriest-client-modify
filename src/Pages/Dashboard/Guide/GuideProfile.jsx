@@ -79,7 +79,8 @@ const handleGuide = async(e) =>{
             <a href="#" className="relative block">
               <img
                 alt="profile"
-                src={user?.photoURL}
+                src={user?.photoURL || "https://ui-avatars.com/api/?name=User&background=random"}
+                onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random` }}
                 className="mx-auto object-cover rounded-full h-24 w-24  border-2 border-white "
               />
             </a>

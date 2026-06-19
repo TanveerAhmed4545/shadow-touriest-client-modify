@@ -12,13 +12,22 @@ import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const { createUser, setReload } = useAuth();
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
     
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
      
-    const onSubmit = (data) => {
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
+
+    const onSubmit = async (data) => {
         if(data.password.length < 6) {
             toast.error("Password should be at least 6 characters or longer");
             return;
@@ -27,36 +36,66 @@ const Register = () => {
             return;
         }
    
-        createUser(data.email, data.password)
-        .then(result => {             
-            updateProfile(result.user, {
-                displayName: data.name,
-                photoURL: data.photo
-            }).then(() => {
-                const userInfo = {
-                    name: data.name,
-                    email: data.email,
-                    role: 'tourist',
-                    status: 'Verified',
-                };
-                
-                axiosPublic.post('/users', userInfo)
-                .then(res => {
-                    if(res.data.insertedId) {
-                        toast.success("Successfully Registered!");
-                        setReload(true);
-                        reset();
-                        navigate('/');   
-                    }
+        const imageFile = data.photo[0];
+        if (!imageFile) {
+            toast.error("Please upload a profile picture.");
+            return;
+        }
+
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('image', imageFile);
+
+        try {
+            const imgBBKey = import.meta.env.VITE_IMGBB_API_KEY;
+            if (!imgBBKey) {
+                toast.error("ImgBB API key is missing in environment variables.");
+                setUploading(false);
+                return;
+            }
+            
+            const res = await axiosPublic.post(`https://api.imgbb.com/1/upload?key=${imgBBKey}`, formData);
+            const imageUrl = res.data.data.display_url;
+
+            createUser(data.email, data.password)
+            .then(result => {             
+                updateProfile(result.user, {
+                    displayName: data.name,
+                    photoURL: imageUrl
+                }).then(() => {
+                    const userInfo = {
+                        name: data.name,
+                        email: data.email,
+                        role: 'tourist',
+                        status: 'Verified',
+                    };
+                    
+                    axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        if(res.data.insertedId) {
+                            toast.success("Successfully Registered!");
+                            setReload(true);
+                            reset();
+                            setImagePreview(null);
+                            navigate('/');   
+                        }
+                        setUploading(false);
+                    });
+                }).catch(error => {
+                    console.log(error);
+                    toast.error("Failed to update profile details.");
+                    setUploading(false);
                 });
-            }).catch(error => {
-                console.log(error);
-                toast.error("Failed to update profile details.");
+            })
+            .catch(error => {
+                if(error) toast.error("Error creating account. Email may already be in use.");
+                setUploading(false);
             });
-        })
-        .catch(error => {
-            if(error) toast.error("Error creating account. Email may already be in use.");
-        });
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to upload image. Please try again.");
+            setUploading(false);
+        }
     } 
 
     return (
@@ -124,13 +163,24 @@ const Register = () => {
                                 {errors.name && <span className="text-red-500 text-xs font-bold ml-2 mt-1 block">Name is required</span>}
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-brand-dark mb-2 ml-2">Photo URL</label>
-                                <input 
-                                    type="text" 
-                                    placeholder="https://..." 
-                                    className="w-full px-6 py-4 bg-brand-light border-2 border-transparent focus:border-brand-primary rounded-[20px] outline-none transition-all duration-300 font-medium text-brand-dark placeholder-gray-400" 
-                                    {...register("photo", { required: true })}
-                                />
+                                <label className="block text-sm font-bold text-brand-dark mb-2 ml-2">Profile Picture</label>
+                                <div className="flex items-center gap-4">
+                                    {imagePreview ? (
+                                        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-brand-primary flex-shrink-0">
+                                            <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                        </div>
+                                    ) : (
+                                        <div className="w-14 h-14 rounded-full bg-brand-light border-2 border-dashed border-gray-300 flex items-center justify-center flex-shrink-0 text-gray-400">
+                                            <IoMdEye size={20} className="opacity-50" />
+                                        </div>
+                                    )}
+                                    <input 
+                                        type="file" 
+                                        accept="image/*"
+                                        className="w-full px-4 py-3 bg-brand-light border-2 border-transparent focus:border-brand-primary rounded-[20px] outline-none transition-all duration-300 font-medium text-brand-dark file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-primary/10 file:text-brand-primary hover:file:bg-brand-primary/20" 
+                                        {...register("photo", { required: true, onChange: handleImageChange })}
+                                    />
+                                </div>
                                 {errors.photo && <span className="text-red-500 text-xs font-bold ml-2 mt-1 block">Photo is required</span>}
                             </div>
                         </div>
@@ -169,9 +219,10 @@ const Register = () => {
                         <div className="pt-2">
                             <button 
                                 type="submit" 
-                                className="btn-primary w-full py-4 text-lg shadow-xl shadow-brand-primary/30 hover:shadow-brand-primary/50"
+                                disabled={uploading}
+                                className="btn-primary w-full py-4 text-lg shadow-xl shadow-brand-primary/30 hover:shadow-brand-primary/50 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Create Account
+                                {uploading ? 'Uploading & Creating...' : 'Create Account'}
                             </button>
                         </div>
                     </form>

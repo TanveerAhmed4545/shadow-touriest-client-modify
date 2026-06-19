@@ -95,7 +95,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end hidden sm:block">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar border-2 border-transparent hover:border-brand-secondary transition-colors duration-300">
                 <div className="w-10 rounded-full">
-                  <img alt="User avatar" src={user?.photoURL ? user.photoURL : demoUserPic} />
+                  <img alt="User avatar" src={user?.photoURL || demoUserPic} onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random` }} />
                 </div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-white rounded-2xl w-52 text-brand-dark">

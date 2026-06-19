@@ -29,7 +29,8 @@ const AdminProfile = () => {
                         <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white relative z-10">
                             <img
                                 alt="profile"
-                                src={user?.photoURL || "https://i.ibb.co/v3n5428/placeholder-avatar.jpg"}
+                                src={user?.photoURL || "https://ui-avatars.com/api/?name=User&background=random"}
+                                onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random` }}
                                 className="w-full h-full object-cover"
                             />
                         </div>

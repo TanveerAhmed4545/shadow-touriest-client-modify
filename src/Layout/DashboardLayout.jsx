@@ -27,7 +27,7 @@ const DashboardLayout = () => {
                   <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-primary to-brand-secondary p-[2px] shadow-lg overflow-hidden transform hover:rotate-3 transition-transform cursor-pointer">
                     <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden">
                       {user?.photoURL ? (
-                          <img src={user.photoURL} alt="User" className="w-full h-full object-cover" />
+                          <img src={user.photoURL} alt="User" className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random` }} />
                       ) : (
                           <span className="font-bold text-brand-primary">{user?.displayName?.charAt(0) || "U"}</span>
                       )}
