@@ -3,8 +3,16 @@ import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home";
 import About from "../Pages/About/About";
 import Contact from "../Pages/Contact/Contact";
+import Help from "../Pages/Help/Help";
+import Careers from "../Pages/Careers/Careers";
+import Terms from "../Pages/Terms/Terms";
+import FAQ from "../Pages/FAQ/FAQ";
+import Services from "../Pages/Services/Services";
+import Team from "../Pages/Team/Team";
+import Destination from "../Pages/Destination/Destination";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import PrivacyPolicy from "../Pages/PrivacyPolicy/PrivacyPolicy";
 import DashboardLayout from "../Layout/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import Statistics from "../Pages/Dashboard/Common/Statistics";
@@ -62,6 +70,38 @@ export const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact></Contact>,
+      },
+      {
+        path: "/privacy",
+        element: <PrivacyPolicy></PrivacyPolicy>,
+      },
+      {
+        path: "/help",
+        element: <Help></Help>,
+      },
+      {
+        path: "/careers",
+        element: <Careers></Careers>,
+      },
+      {
+        path: "/terms",
+        element: <Terms></Terms>,
+      },
+      {
+        path: "/faq",
+        element: <FAQ></FAQ>,
+      },
+      {
+        path: "/services",
+        element: <Services></Services>,
+      },
+      {
+        path: "/team",
+        element: <Team></Team>,
+      },
+      {
+        path: "/destination/:name",
+        element: <Destination></Destination>,
       },
       {
         path: "/allPackages",

@@ -85,26 +85,28 @@ const Contact = () => {
               </p>
             </div>
 
-            <form className="space-y-6">
+            <form action="https://formsubmit.co/tanveer8507@gmail.com" method="POST" className="space-y-6">
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_next" value={window.location.href} />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-brand-dark mb-2">Your Name</label>
-                  <input type="text" placeholder="John Doe" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
+                  <input type="text" name="name" placeholder="John Doe" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-brand-dark mb-2">Your Email</label>
-                  <input type="email" placeholder="john@example.com" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
+                  <input type="email" name="email" placeholder="john@example.com" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
                 </div>
               </div>
               
               <div>
                 <label className="block text-sm font-bold text-brand-dark mb-2">Subject</label>
-                <input type="text" placeholder="Tour Inquiry" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
+                <input type="text" name="_subject" placeholder="Tour Inquiry" required className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all" />
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-brand-dark mb-2">Message</label>
-                <textarea placeholder="Tell us about your dream adventure..." required rows="6" className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all resize-none"></textarea>
+                <textarea name="message" placeholder="Tell us about your dream adventure..." required rows="6" className="w-full bg-brand-light p-4 rounded-[20px] outline-none focus:ring-2 focus:ring-brand-primary transition-all resize-none"></textarea>
               </div>
 
               <button type="submit" className="btn-primary w-full text-lg shadow-lg shadow-brand-primary/30">
@@ -172,7 +174,7 @@ const Contact = () => {
                 How do I book a personalized tour?
               </div>
               <div className="collapse-content text-gray-600"> 
-                <p>You can easily book a tour by navigating to our "Packages" page, selecting your desired adventure, and clicking the "Book Now" button. Alternatively, you can fill out the contact form above with your specific requests and we will create a custom itinerary for you.</p>
+                <p>You can easily book a tour by navigating to our &quot;Packages&quot; page, selecting your desired adventure, and clicking the &quot;Book Now&quot; button. Alternatively, you can fill out the contact form above with your specific requests and we will create a custom itinerary for you.</p>
               </div>
             </div>
             

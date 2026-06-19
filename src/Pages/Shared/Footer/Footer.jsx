@@ -1,4 +1,4 @@
-import { FaInstagram, FaLinkedinIn, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaHome } from 'react-icons/fa';
+import { FaInstagram, FaPhoneAlt, FaEnvelope, FaHome } from 'react-icons/fa';
 import { IoLogoTwitter } from 'react-icons/io';
 import { FaFacebookF, FaPinterestP } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
@@ -58,7 +58,7 @@ const Footer = () => {
                             <h4 className="font-bold text-lg mb-6 text-white">Explore</h4>
                             <ul className="space-y-4">
                                 <li><Link to="/about" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">About us</Link></li>
-                                <li><Link to="/faq" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">FAQ's</Link></li>
+                                <li><Link to="/faq" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">FAQ&apos;s</Link></li>
                                 <li><Link to="/services" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Services</Link></li>
                                 <li><Link to="/team" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Team</Link></li>
                                 <li><Link to="/blogs" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">News & Articles</Link></li>
@@ -67,11 +67,11 @@ const Footer = () => {
                         <div>
                             <h4 className="font-bold text-lg mb-6 text-white">Destinations</h4>
                             <ul className="space-y-4">
-                                <li><Link to="/allPackages" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Tokyo</Link></li>
-                                <li><Link to="/allPackages" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">France</Link></li>
-                                <li><Link to="/allPackages" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Dubai</Link></li>
-                                <li><Link to="/allPackages" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Kenya</Link></li>
-                                <li><Link to="/allPackages" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Vietnam</Link></li>
+                                <li><Link to="/destination/tokyo" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Tokyo</Link></li>
+                                <li><Link to="/destination/france" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">France</Link></li>
+                                <li><Link to="/destination/dubai" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Dubai</Link></li>
+                                <li><Link to="/destination/kenya" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Kenya</Link></li>
+                                <li><Link to="/destination/vietnam" className="text-gray-200 hover:text-brand-secondary transition-colors text-sm font-medium">Vietnam</Link></li>
                             </ul>
                         </div>
                         <div>
