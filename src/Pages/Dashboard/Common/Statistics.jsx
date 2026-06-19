@@ -165,7 +165,7 @@ const Statistics = () => {
                                 ))
                             ) : (
                                 <div className="text-center py-10 bg-brand-light rounded-2xl">
-                                    <p className="text-gray-500 font-medium">You haven't booked any tours yet.</p>
+                                    <p className="text-gray-500 font-medium">You haven&apos;t booked any tours yet.</p>
                                     <Link to="/allPackages" className="inline-block mt-4 btn-primary py-2 px-6">Find a Tour</Link>
                                 </div>
                             )}
@@ -183,7 +183,7 @@ const Statistics = () => {
                     <div className="space-y-4">
                         {packages && packages.slice(0, 4).map(pkg => (
                             <Link to={`/package-details/${pkg._id}`} key={pkg._id} className="flex items-center gap-4 group">
-                                <img src={pkg.image} alt={pkg.tripTitle} className="w-16 h-16 rounded-xl object-cover" />
+                                <img src={pkg.images?.[0]} alt={pkg.tripTitle} className="w-16 h-16 rounded-xl object-cover" />
                                 <div>
                                     <h4 className="font-bold text-brand-dark text-sm group-hover:text-brand-primary transition-colors line-clamp-1">{pkg.tripTitle}</h4>
                                     <p className="text-brand-secondary text-sm font-bold">${pkg.price}</p>
